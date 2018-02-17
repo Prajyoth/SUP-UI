@@ -1,17 +1,13 @@
+import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
+import { browserHistory } from 'react-router';
+import { BrowserRouter, Route } from 'react-router-dom';
+import routes from './routes';
+import RouteDef from './routes';
+import App from './components/App';
 
-import AwesomeComponent from './AwesomeComponent.jsx';
-
-class App extends React.Component {
-  render () {
-    return (
-        <div>
-             <p> Hello React project</p>
-             <AwesomeComponent />
-        </div>
-    )
-  }
-}
-
-render(<App/>, document.getElementById('app'));
+render(
+  <RouteDef />,
+  document.getElementById('app')
+);

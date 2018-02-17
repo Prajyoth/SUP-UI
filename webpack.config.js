@@ -13,16 +13,20 @@ var config = {
     devServer: {
         contentBase: APP_DIR,
         inline: true,
-        port: 3000
+        port: 3000,
+        historyApiFallback: true
     },
     module : {
         loaders : [
             {
-                test : /\.jsx?/,
+                test : /\.jsx?$/,
                 include : APP_DIR,
                 loader : 'babel-loader'
             }
         ]
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
     }
 };
 
