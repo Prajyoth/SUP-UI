@@ -14,7 +14,15 @@ var config = {
         contentBase: APP_DIR,
         inline: true,
         port: 3000,
-        historyApiFallback: true
+        historyApiFallback: true,
+        proxy: [{
+                /** include api pattern which needs to be proxied. */
+                context: [
+                    "/rest/"
+                ],
+                target: 'http://localhost:8080',
+                changeOrigin: true
+            }]
     },
     module : {
         loaders : [

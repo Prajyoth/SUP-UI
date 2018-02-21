@@ -7,6 +7,7 @@ class CreatePage extends React.Component {
             <div>
                 <h1> Create an Article </h1>
                 <table>
+                    <tbody>
                     <tr>
                         <td><label> ID </label></td>
                         <td><input type="text" /></td>
@@ -23,7 +24,9 @@ class CreatePage extends React.Component {
                         <td><label> Body </label></td>
                         <td><input type="text" /></td>
                     </tr>
+                    </tbody>
                 </table>
+                <button>Save</button>
             </div>
         );
     }
