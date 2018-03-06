@@ -4,7 +4,6 @@ import {render} from 'react-dom';
 import { browserHistory } from 'react-router';
 import { BrowserRouter, Route } from 'react-router-dom';
 import RouteDef from './routes';
-import App from './components/App';
 
 render(
   <RouteDef />,
