@@ -5,7 +5,10 @@ Run using - npm start
 
 Default port : 3000
 
-Routes
+Routes:-
 http://localhost:3000/
+
 http://localhost:3000/read
-http://localhostt:3000/create
+
+http://localhost:3000/create
+
