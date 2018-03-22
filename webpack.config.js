@@ -18,9 +18,15 @@ var config = {
         proxy: [{
                 /** include api pattern which needs to be proxied. */
                 context: [
-                    "/rest/"
+                    "/rest/article/"
                 ],
                 target: 'http://localhost:8080',
+                changeOrigin: true
+            },{
+                context: [
+                    "/sup-proxy/"
+                ],
+                target: 'http://localhost:9000',
                 changeOrigin: true
             }]
     },

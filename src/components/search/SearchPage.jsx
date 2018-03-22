@@ -28,7 +28,7 @@ class Search extends React.Component {
                  <ul>
                     {this.props.headingNames.map((names) =>
                     <li key={names}>
-                    <Link to="/" onClick={this.openModal.bind(this, names)}> {names} </Link>
+                    <Link to={this.props.currentpath} onClick={this.openModal.bind(this, names)}> {names} </Link>
                     </li>
                     )}
                 </ul>

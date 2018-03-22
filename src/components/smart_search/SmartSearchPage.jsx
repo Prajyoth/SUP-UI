@@ -2,17 +2,18 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import Search from '../search/SearchPage'
 
-const urlRead = () => 'http://localhost:3000/rest/article/all';
-const searchUrl = () => 'http://localhost:3000/rest/article/search';
+const searchUrl = () => 'http://localhost:3000/sup-proxy/rest/query';
 
-class ReadPage extends React.Component {
+class SmartSearchPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             headingNames : [],
             contentmap: new Map(),
             searchString: '',
-            currentpath: '/'
+            smartTalkMessage: '',
+            smartTalkOnly: false,
+            currentpath: '/smart'
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +27,7 @@ class ReadPage extends React.Component {
     }
 
     handleSubmit(event) {
-        let searchUrlWithParam = searchUrl() + '?searchString=' + this.state.searchString;
+        let searchUrlWithParam = searchUrl() + '?query=' + this.state.searchString;
         console.log(searchUrlWithParam);
         fetch(searchUrlWithParam)
         .then(response => response.json())
@@ -35,52 +36,54 @@ class ReadPage extends React.Component {
             //let obj = JSON.parse(response);
             let headinglist = [];
             let bodylist = new Map();
+
+            if(data.length == 0) {
+                this.setState({
+                    smartTalkMessage: 'No results found',
+                    smartTalkOnly: true
+                });
+            } else if(data[0].id === null) {
+                this.setState({
+                    smartTalkMessage: data[0].body,
+                    smartTalkOnly: true
+                });
+                console.log(data[0].body);
+            } else {
             for (let i =0; i<data.length; i++) {
                 headinglist.push(data[i].heading);
                 bodylist.set(data[i].heading, data[i].body);
             }
             this.setState({
                 headingNames: headinglist,
-                contentmap: bodylist
+                contentmap: bodylist,
+                smartTalkOnly: false
             });
+            console.log('inside for loop');
+        }
         })
 
         event.preventDefault();
     }
 
-    componentDidMount() {
-        fetch(urlRead())
-            .then(response => response.json())
-            .then(data => {
-                //let obj = JSON.parse(response);
-                let headinglist = [];
-                let bodylist = new Map();
-                for (let i =0; i<data.length; i++) {
-                    headinglist.push(data[i].heading);
-                    bodylist.set(data[i].heading, data[i].body);
-                }
-                this.setState({
-                    headingNames: headinglist,
-                    contentmap: bodylist
-                });
-            })
-    }
-
     render() {
         return (
             <div>
-                <Link to="/create"> Click here to create </Link>
+                <Link to="/"> Click here to read </Link>
                 <br />
-                <Link to="/smart"> Search with Smart Search </Link>
-                <h1> Read an Article </h1>
+                <Link to="/create"> Click here to create </Link>
+                <h1> Smart Search (Beta) </h1>
                 <form onSubmit={this.handleSubmit}>
                 <input name='searchString' type="text" value={this.state.searchString} onChange={this.handleChange} />
                 <input type='submit' value='Search' />
-                <Search headingNames={this.state.headingNames} contentmap={this.state.contentmap} currentpath={this.state.currentpath} />
+                {this.state.smartTalkOnly ? (
+                    <h3> {this.state.smartTalkMessage} </h3>
+                ) : (
+                    <Search headingNames={this.state.headingNames} contentmap={this.state.contentmap} currentpath={this.state.currentpath} />
+                )}
             </form>
             </div>
         );
     }
 }
 
-export default ReadPage;
+export default SmartSearchPage;
